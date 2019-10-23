@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class Inspector {
-
+	
     public void inspect(Object obj, boolean recursive) {
         Class c = obj.getClass();
         inspectClass(c, obj, recursive, 0);
@@ -16,6 +16,12 @@ public class Inspector {
     	for(int i=0; i<depth; i++) {
     		tabs = tabs + "\t";
     	}
+    	
+    	Class superClass = c.getSuperclass();
+    	if(c != Object.class) {
+    		inspectClass(superClass, obj, recursive, depth + 1);
+    	}
+    	
     	
     	//print class name
     	String className = c.getName();
@@ -108,7 +114,7 @@ public class Inspector {
     
     
     public static void main(String[] args){
-    	Object apple = new Fruit("Apple", 18);
+    	Object apple = new MiniFruit("Apple", 18);
     	new Inspector().inspect(apple, true);
     	
     }
