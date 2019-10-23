@@ -1,0 +1,103 @@
+======================================================
+Filename: scriptTest.txt
+Running Test: MiniFruit@7c53a9eb
+Recursive: true
+		Class Name: java.lang.Object
+		 Constructor Name: java.lang.Object
+		  Modifier: public
+		 Method Name: finalize
+		  Exception Type: java.lang.Throwable
+		  Return Type: void
+		  Modifier: protected
+		 Method Name: wait
+		  Exception Type: java.lang.InterruptedException
+		  Return Type: void
+		  Parameter Type: long
+		  Modifier: public final native
+		 Method Name: wait
+		  Exception Type: java.lang.InterruptedException
+		  Return Type: void
+		  Parameter Type: long
+		  Parameter Type: int
+		  Modifier: public final
+		 Method Name: wait
+		  Exception Type: java.lang.InterruptedException
+		  Return Type: void
+		  Modifier: public final
+		 Method Name: equals
+		  Return Type: boolean
+		  Parameter Type: java.lang.Object
+		  Modifier: public
+		 Method Name: toString
+		  Return Type: java.lang.String
+		  Modifier: public
+		 Method Name: hashCode
+		  Return Type: int
+		  Modifier: public native
+		 Method Name: getClass
+		  Return Type: java.lang.Class
+		  Modifier: public final native
+		 Method Name: clone
+		  Exception Type: java.lang.CloneNotSupportedException
+		  Return Type: java.lang.Object
+		  Modifier: protected native
+		 Method Name: notify
+		  Return Type: void
+		  Modifier: public final native
+		 Method Name: notifyAll
+		  Return Type: void
+		  Modifier: public final native
+		 Method Name: registerNatives
+		  Return Type: void
+		  Modifier: private static native
+	Class Name: Fruit
+	 Constructor Name: Fruit
+	  Parameter Type: java.lang.String
+	  Parameter Type: int
+	  Parameter Type: int
+	  Parameter Type: int
+	  Modifier: public
+	 Constructor Name: Fruit
+	  Parameter Type: java.lang.String
+	  Parameter Type: int
+	  Modifier: public
+	 Method Name: getName
+	  Return Type: java.lang.String
+	  Modifier: public
+	 Method Name: setName
+	  Return Type: void
+	  Parameter Type: java.lang.String
+	  Modifier: public
+	 Method Name: setSeeds
+	  Return Type: void
+	  Parameter Type: int
+	  Modifier: public
+	 Method Name: uselessCalc
+	  Return Type: int
+	  Modifier: public
+	 Method Name: newFruit
+	  Exception Type: java.lang.NullPointerException
+	  Return Type: Fruit
+	  Parameter Type: Fruit
+	  Modifier: private
+	 Method Name: getSeeds
+	  Return Type: int
+	  Modifier: public
+	 Field Name: size
+	  Type: int
+	  Modifier: public
+	  Value: 10
+	 Field Name: seeds
+	  Type: int
+	  Modifier: private
+	  Value: 5
+	 Field Name: name
+	  Type: java.lang.String
+	  Modifier: private
+	  Value: java.lang.String@63476538
+Class Name: MiniFruit
+ Constructor Name: MiniFruit
+  Parameter Type: java.lang.String
+  Parameter Type: int
+  Modifier: public
+======================================================
