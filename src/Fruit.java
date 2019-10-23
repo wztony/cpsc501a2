@@ -36,4 +36,8 @@ public class Fruit {
 		return size * seeds;
 	}
 	
+	private Fruit newFruit(Fruit fruit) throws NullPointerException {
+		return new Fruit(fruit.getName(), fruit.size);
+	}
+	
 }
