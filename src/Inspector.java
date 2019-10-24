@@ -10,25 +10,34 @@ public class Inspector {
         inspectClass(c, obj, recursive, 0);
     }
 
-    private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
-    	//set up how far to indent tabs
-    	String tabs = "";
-    	for(int i=0; i<depth; i++) {
-    		tabs = tabs + "\t";
-    	}
-    	
-    	Class superClass = c.getSuperclass();
-    	if(c != Object.class) {
-    		inspectClass(superClass, obj, recursive, depth + 1);
-    	}
-    	
-    	
-    	//print class name
-    	String className = c.getName();
-    	System.out.println(tabs + "Class Name: " + className);
-    	
-    	
-		//get each constructor and use it to get and print name, parameters, and modifier
+	private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
+		//set up how far to indent tabs
+		String tabs = setupTabs(depth);
+		
+		if(c.isArray()) {
+			
+		}
+		Class superClass = c.getSuperclass();
+		if(c != Object.class) {
+			inspectClass(superClass, obj, recursive, depth + 1);
+		}
+		
+		recInterface(c, obj, depth + 1);
+		
+		//print class name
+		String className = c.getName();
+		System.out.println(tabs + "Class Name: " + className);
+		
+		printConstructors(c, tabs);
+		printMethods(c, tabs);		
+		printFields(c, obj, tabs);
+//		if(recursive)
+//			inspectClass(c, obj, recursive, depth);
+	}
+    
+    
+    public void printConstructors(Class c, String tabs) {
+    	//get each constructor and use it to get and print name, parameters, and modifier
 		Constructor[] classConstructor = c.getDeclaredConstructors();
 		for(Constructor constructor : classConstructor) {
 			if(!Modifier.isPublic(constructor.getModifiers())) {
@@ -41,9 +50,11 @@ public class Inspector {
 			}
 			System.out.println(tabs + "  Modifier: " + Modifier.toString(constructor.getModifiers()));
 		}
-		
-
-		Method[] classMethod = c.getDeclaredMethods();
+    }
+    
+    
+    public void printMethods(Class c, String tabs) {
+    	Method[] classMethod = c.getDeclaredMethods();
 		for(Method method : classMethod) {
 			if(!Modifier.isPublic(method.getModifiers())) {
 				method.setAccessible(true);
@@ -55,7 +66,7 @@ public class Inspector {
 				System.out.println(tabs + "  Exception Type: " + parameter.getName());
 			}
 			
-			System.out.println(tabs + "  Return Type: " + method.getReturnType().getName());
+			System.out.println(tabs + "  Return Type: " + method.getReturnType());
 			
 			Class[] methodParameters = method.getParameterTypes();
 			for(Class parameter : methodParameters) {
@@ -63,9 +74,11 @@ public class Inspector {
 			}
 			System.out.println(tabs + "  Modifier: " + Modifier.toString(method.getModifiers()));
 		}
-		
-		
-		Field[] classField = c.getDeclaredFields();
+    }
+    
+    
+    public void printFields(Class c, Object obj, String tabs) {
+    	Field[] classField = c.getDeclaredFields();
 		for(Field field : classField) {
 			if(!Modifier.isPublic(field.getModifiers())) {
 				field.setAccessible(true);
@@ -100,16 +113,33 @@ public class Inspector {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
 		}
-    	
-    	
-    	
-    	
-//    	if(recursive)
-//    		inspectClass(c, obj, recursive, depth);
+    }
+    
+    
+    public void recInterface(Class c, Object obj, int depth) {
+    	String tabs = setupTabs(depth);
+    	Class[] interfaces = c.getInterfaces();
+    	for(Class intf : interfaces) {
+			Class[] superInterfaces = intf.getInterfaces();
+			for(Class sintf : superInterfaces) {
+				if(sintf.isInterface()) {
+					recInterface(intf, obj, depth + 1);
+				}
+			}
+			System.out.println(tabs + "Interface Name: " + intf.getName());
+			printMethods(intf, tabs);
+			printFields(intf, obj, tabs);
+		}
+    }
+    
+    
+    public String setupTabs(int depth) {
+    	String tabs = "";
+    	for(int i=0; i<depth; i++) {
+			tabs = tabs + "-------|";
+		}
+    	return tabs;
     }
     
     
