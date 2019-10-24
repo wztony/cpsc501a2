@@ -3,6 +3,7 @@ public class Fruit {
 	public int size;
 	private int seeds;
 	private String name;
+	private Vegetable veg = new Vegetable();
 	
 	public int getSeeds() {
 		return seeds;
@@ -20,6 +21,12 @@ public class Fruit {
 		this.name = name;
 	}
 
+	
+	public Fruit(){
+		name ="No name";
+		size = 1;
+		seeds = 1;
+	}
 
 	public Fruit(String n, int s) {
 		name = n;

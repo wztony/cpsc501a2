@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,26 +14,27 @@ public class Inspector {
 	private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
 		//set up how far to indent tabs
 		String tabs = setupTabs(depth);
-		
 		if(c.isArray()) {
+			recArray(c, obj, recursive, depth);
+		}
+		else {
+			Class superClass = c.getSuperclass();
+			if(c != Object.class) {
+				inspectClass(superClass, obj, recursive, depth + 1);
+			}
 			
+			recInterface(c, obj, recursive, depth + 1);
+			
+			//print class name
+			String className = c.getName();
+			System.out.println(tabs + "Class Name: " + className);
+			
+			printConstructors(c, tabs);
+			printMethods(c, tabs);		
+			printFields(c, obj, recursive, depth);
+//			if(recursive)
+//				inspectClass(c, obj, recursive, depth);
 		}
-		Class superClass = c.getSuperclass();
-		if(c != Object.class) {
-			inspectClass(superClass, obj, recursive, depth + 1);
-		}
-		
-		recInterface(c, obj, depth + 1);
-		
-		//print class name
-		String className = c.getName();
-		System.out.println(tabs + "Class Name: " + className);
-		
-		printConstructors(c, tabs);
-		printMethods(c, tabs);		
-		printFields(c, obj, tabs);
-//		if(recursive)
-//			inspectClass(c, obj, recursive, depth);
 	}
     
     
@@ -77,34 +79,31 @@ public class Inspector {
     }
     
     
-    public void printFields(Class c, Object obj, String tabs) {
+    public void printFields(Class c, Object obj, boolean recursive, int depth) {
+    	String tabs = setupTabs(depth);
     	Field[] classField = c.getDeclaredFields();
 		for(Field field : classField) {
 			if(!Modifier.isPublic(field.getModifiers())) {
 				field.setAccessible(true);
 			}
+			
 			System.out.println(tabs + " Field Name: " + field.getName());
-			
 			System.out.println(tabs + "  Type: " + field.getType().getName());
-			
 			System.out.println(tabs + "  Modifier: " + Modifier.toString(field.getModifiers()));
-			
-
 			try {
 				Object ob = field.get(obj);
-				if(ob.getClass().isPrimitive() ||
-						ob.getClass() == Integer.class ||
-						ob.getClass() == Double.class ||
-						ob.getClass() == Float.class ||
-						ob.getClass() == Short.class ||
-						ob.getClass() == Long.class ||
-						ob.getClass() == Character.class ||
-						ob.getClass() == Byte.class ||
-						ob.getClass() == Boolean.class) {
+				if(isPrimitive(ob)||
+						ob.getClass() == java.lang.String.class||
+						ob.getClass() == java.lang.Long.class||
+						ob.getClass() == java.lang.Integer.class||
+						ob.getClass() == java.lang.Boolean.class) {
 					System.out.println(tabs + "  Value: " + ob);
 				}
-				else {
+				else if(!recursive){
 					System.out.println(tabs + "  Value: " + ob.getClass().getName() + "@" + ob.hashCode());
+				}
+				else {
+					inspectClass(ob.getClass(), ob, recursive, depth + 1);
 				}
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
@@ -113,23 +112,24 @@ public class Inspector {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
     }
     
     
-    public void recInterface(Class c, Object obj, int depth) {
+    public void recInterface(Class c, Object obj, boolean recursive, int depth) {
     	String tabs = setupTabs(depth);
     	Class[] interfaces = c.getInterfaces();
     	for(Class intf : interfaces) {
 			Class[] superInterfaces = intf.getInterfaces();
 			for(Class sintf : superInterfaces) {
 				if(sintf.isInterface()) {
-					recInterface(intf, obj, depth + 1);
+					recInterface(intf, obj, recursive, depth + 1);
 				}
 			}
 			System.out.println(tabs + "Interface Name: " + intf.getName());
 			printMethods(intf, tabs);
-			printFields(intf, obj, tabs);
+			printFields(intf, obj, recursive, depth);
 		}
     }
     
@@ -143,9 +143,67 @@ public class Inspector {
     }
     
     
+    public boolean isPrimitive(Object ob) {
+    	return ob.getClass().isPrimitive() ||
+				ob.getClass() == Integer.class ||
+				ob.getClass() == Double.class ||
+				ob.getClass() == Float.class ||
+				ob.getClass() == Short.class ||
+				ob.getClass() == Long.class ||
+				ob.getClass() == Character.class ||
+				ob.getClass() == Byte.class ||
+				ob.getClass() == Boolean.class;
+    }
+    
+    
+    public void recArray(Class c, Object obj, boolean recursive, int depth) {
+    	String tabs = setupTabs(depth);
+    	for(int i=0; i<Array.getLength(obj); i++) {
+			if(i==0) {
+				System.out.print(tabs + "[");
+			}
+			if(i>0) {
+				System.out.print(",");
+			}
+			Object value = Array.get(obj, i);
+			if(value.getClass().isPrimitive() ||
+					value.getClass() == java.lang.String.class||
+					value.getClass() == java.lang.Long.class||
+					value.getClass() == java.lang.Integer.class||
+					value.getClass() == java.lang.Boolean.class) {
+				System.out.print(value);
+			}
+			else if(value.getClass().isArray()){
+				recArray(value.getClass(), value, recursive, depth);
+			}
+			else {
+				if(recursive) {
+					inspectClass(value.getClass(), value, recursive, depth);
+				}
+				else {
+					System.out.print(value.getClass().getName() + "@" + value.hashCode());
+				}
+			}
+			if(i == Array.getLength(obj)-1) {
+				System.out.print("]");
+			}
+		}
+		System.out.println();
+    }
+    
     public static void main(String[] args){
     	Object apple = new MiniFruit("Apple", 18);
-    	new Inspector().inspect(apple, true);
+    	new Inspector().inspect(apple, false);
+    	int[] ar = {1,2,3};
+    	int[][] br = {{1,3,5},{2,4,6}};
+    	String[] cr = {"abc", "def", "asdf"};
+    	Fruit[] fruits = {new Fruit(), new Fruit()};
+    	new Inspector().inspect(ar, false);
+    	new Inspector().inspect(br, false);
+    	new Inspector().inspect(cr, false);
+    	new Inspector().inspect(fruits, false);
     	
+    	int a = 3;
+    	new Inspector().inspect(a, false);
     }
 }
