@@ -1,0 +1,81 @@
+======================================================
+Filename: script5.txt
+Running Test: ClassD
+Recursive: true
+	Class Name: java.lang.Object
+	 Constructor Name: java.lang.Object
+	  Modifier: public
+	 Method Name: finalize
+	  Exception Type: java.lang.Throwable
+	  Return Type: void
+	  Modifier: protected
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Modifier: public final
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Parameter Type: long
+	  Parameter Type: int
+	  Modifier: public final
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Parameter Type: long
+	  Modifier: public final native
+	 Method Name: equals
+	  Return Type: boolean
+	  Parameter Type: java.lang.Object
+	  Modifier: public
+	 Method Name: toString
+	  Return Type: class java.lang.String
+	  Modifier: public
+	 Method Name: hashCode
+	  Return Type: int
+	  Modifier: public native
+	 Method Name: getClass
+	  Return Type: class java.lang.Class
+	  Modifier: public final native
+	 Method Name: clone
+	  Exception Type: java.lang.CloneNotSupportedException
+	  Return Type: class java.lang.Object
+	  Modifier: protected native
+	 Method Name: notify
+	  Return Type: void
+	  Modifier: public final native
+	 Method Name: notifyAll
+	  Return Type: void
+	  Modifier: public final native
+	 Method Name: registerNatives
+	  Return Type: void
+	  Modifier: private static native
+Class Name: ClassD
+ Constructor Name: ClassD
+  Modifier: public
+ Constructor Name: ClassD
+  Parameter Type: int
+  Modifier: public
+ Method Name: toString
+  Return Type: class java.lang.String
+  Modifier: public
+ Method Name: getVal3
+  Return Type: int
+  Modifier: public
+ Field Name: val
+  Type: ClassA
+  Modifier: private
+  Value: ClassA@356573597
+ Field Name: val2
+  Type: ClassA
+  Modifier: private static
+  Value: null
+ Field Name: val3
+  Type: int
+  Modifier: private
+  Value: 34
+ Field Name: vallarray
+  Type: [LClassA;
+  Modifier: private
+  Value: [LClassA;@1735600054
+======================================================

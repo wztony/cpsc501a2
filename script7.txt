@@ -1,0 +1,18 @@
+======================================================
+Filename: script7.txt
+Running Test: [[LClassB;@7f31245a
+Recursive: true
+[[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+,[null,null,null,null,null,null,null,null,null,null,null,null]
+]
+======================================================

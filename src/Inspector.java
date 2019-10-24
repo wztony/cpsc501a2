@@ -32,8 +32,6 @@ public class Inspector {
 			printConstructors(c, tabs);
 			printMethods(c, tabs);		
 			printFields(c, obj, recursive, depth);
-//			if(recursive)
-//				inspectClass(c, obj, recursive, depth);
 		}
 	}
     
@@ -42,15 +40,19 @@ public class Inspector {
     	//get each constructor and use it to get and print name, parameters, and modifier
 		Constructor[] classConstructor = c.getDeclaredConstructors();
 		for(Constructor constructor : classConstructor) {
-			if(!Modifier.isPublic(constructor.getModifiers())) {
-				constructor.setAccessible(true);
-			}
-			System.out.println(tabs + " Constructor Name: " + constructor.getName());
-			Class[] constructorParameters = constructor.getParameterTypes();
-			for(Class parameter : constructorParameters) {
-				System.out.println(tabs + "  Parameter Type: " + parameter.getName());
-			}
-			System.out.println(tabs + "  Modifier: " + Modifier.toString(constructor.getModifiers()));
+			try {
+				if(!Modifier.isPublic(constructor.getModifiers())) {
+					constructor.setAccessible(true);
+				}
+				System.out.println(tabs + " Constructor Name: " + constructor.getName());
+				Class[] constructorParameters = constructor.getParameterTypes();
+				for(Class parameter : constructorParameters) {
+					System.out.println(tabs + "  Parameter Type: " + parameter.getName());
+				}
+				System.out.println(tabs + "  Modifier: " + Modifier.toString(constructor.getModifiers()));
+			} catch (SecurityException e) {
+				System.out.println("cannot set accessible");
+			} 
 		}
     }
     
@@ -92,18 +94,23 @@ public class Inspector {
 			System.out.println(tabs + "  Modifier: " + Modifier.toString(field.getModifiers()));
 			try {
 				Object ob = field.get(obj);
+				if(ob.equals(null)) {
+					System.out.println(tabs + "  Value: null");
+				}
 				if(isPrimitive(ob)||
 						ob.getClass() == java.lang.String.class||
 						ob.getClass() == java.lang.Long.class||
 						ob.getClass() == java.lang.Integer.class||
-						ob.getClass() == java.lang.Boolean.class) {
+						ob.getClass() == java.lang.Boolean.class||
+						ob.getClass() == java.lang.Double.class||
+						ob.getClass() == java.lang.Float.class||
+						ob.getClass() == java.lang.Short.class||
+						ob.getClass() == java.lang.Character.class||
+						ob.getClass() == java.lang.Byte.class) {
 					System.out.println(tabs + "  Value: " + ob);
 				}
-				else if(!recursive){
-					System.out.println(tabs + "  Value: " + ob.getClass().getName() + "@" + ob.hashCode());
-				}
 				else {
-					inspectClass(ob.getClass(), ob, recursive, depth + 1);
+					System.out.println(tabs + "  Value: " + ob.getClass().getName() + "@" + ob.hashCode());
 				}
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
@@ -111,6 +118,9 @@ public class Inspector {
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (NullPointerException e) {
+//				e.printStackTrace();
+				System.out.println(tabs + "  Value: null");
 			}
 			
 		}
@@ -137,7 +147,7 @@ public class Inspector {
     public String setupTabs(int depth) {
     	String tabs = "";
     	for(int i=0; i<depth; i++) {
-			tabs = tabs + "-------|";
+			tabs = tabs + "\t";
 		}
     	return tabs;
     }
@@ -165,24 +175,29 @@ public class Inspector {
 			if(i>0) {
 				System.out.print(",");
 			}
-			Object value = Array.get(obj, i);
-			if(value.getClass().isPrimitive() ||
-					value.getClass() == java.lang.String.class||
-					value.getClass() == java.lang.Long.class||
-					value.getClass() == java.lang.Integer.class||
-					value.getClass() == java.lang.Boolean.class) {
-				System.out.print(value);
-			}
-			else if(value.getClass().isArray()){
-				recArray(value.getClass(), value, recursive, depth);
-			}
-			else {
-				if(recursive) {
-					inspectClass(value.getClass(), value, recursive, depth);
+			try {
+				Object value = Array.get(obj, i);
+				if(value.getClass().isPrimitive() ||
+						value.getClass() == java.lang.String.class||
+						value.getClass() == java.lang.Long.class||
+						value.getClass() == java.lang.Integer.class||
+						value.getClass() == java.lang.Boolean.class) {
+					System.out.print(value);
+				}
+				else if(value.getClass().isArray()){
+					recArray(value.getClass(), value, false, depth);
 				}
 				else {
-					System.out.print(value.getClass().getName() + "@" + value.hashCode());
+					if(recursive) {
+						inspectClass(value.getClass(), value, true, depth);
+					}
+					else {
+						System.out.print(value.getClass().getName() + "@" + value.hashCode());
+					}
 				}
+			} catch (NullPointerException e) {
+				System.out.print("null");
+//				e.printStackTrace();
 			}
 			if(i == Array.getLength(obj)-1) {
 				System.out.print("]");
@@ -191,19 +206,27 @@ public class Inspector {
 		System.out.println();
     }
     
+    
+    
     public static void main(String[] args){
     	Object apple = new MiniFruit("Apple", 18);
-    	new Inspector().inspect(apple, false);
+//    	new Inspector().inspect(apple, false);
     	int[] ar = {1,2,3};
     	int[][] br = {{1,3,5},{2,4,6}};
     	String[] cr = {"abc", "def", "asdf"};
     	Fruit[] fruits = {new Fruit(), new Fruit()};
-    	new Inspector().inspect(ar, false);
-    	new Inspector().inspect(br, false);
-    	new Inspector().inspect(cr, false);
-    	new Inspector().inspect(fruits, false);
+//    	new Inspector().inspect(ar, false);
+//    	new Inspector().inspect(br, false);
+//    	new Inspector().inspect(cr, false);
+//    	new Inspector().inspect(fruits, false);
     	
-    	int a = 3;
-    	new Inspector().inspect(a, false);
+    	String s = "asdaj";
+    	Vegetable v = new Vegetable();
+    	Vegetable v2 = new Vegetable();
+    	Vegetable[] veges = {v, v2};
+    	new Inspector().inspect(veges, true);
+    	System.out.println("==========================================================================================");
+    	String d = "Smog";
+//    	new Inspector().inspect('a', false);
     }
 }

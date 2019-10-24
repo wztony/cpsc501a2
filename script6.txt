@@ -1,0 +1,6 @@
+======================================================
+Filename: script6.txt
+Running Test: [LClassB;@14ae5a5
+Recursive: true
+[null,null,null,null,null,null,null,null,null,null,null,null]
+======================================================

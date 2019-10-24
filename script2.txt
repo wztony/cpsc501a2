@@ -1,0 +1,93 @@
+======================================================
+Filename: script2.txt
+Running Test: ClassA
+Recursive: true
+	Class Name: java.lang.Object
+	 Constructor Name: java.lang.Object
+	  Modifier: public
+	 Method Name: finalize
+	  Exception Type: java.lang.Throwable
+	  Return Type: void
+	  Modifier: protected
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Modifier: public final
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Parameter Type: long
+	  Parameter Type: int
+	  Modifier: public final
+	 Method Name: wait
+	  Exception Type: java.lang.InterruptedException
+	  Return Type: void
+	  Parameter Type: long
+	  Modifier: public final native
+	 Method Name: equals
+	  Return Type: boolean
+	  Parameter Type: java.lang.Object
+	  Modifier: public
+	 Method Name: toString
+	  Return Type: class java.lang.String
+	  Modifier: public
+	 Method Name: hashCode
+	  Return Type: int
+	  Modifier: public native
+	 Method Name: getClass
+	  Return Type: class java.lang.Class
+	  Modifier: public final native
+	 Method Name: clone
+	  Exception Type: java.lang.CloneNotSupportedException
+	  Return Type: class java.lang.Object
+	  Modifier: protected native
+	 Method Name: notify
+	  Return Type: void
+	  Modifier: public final native
+	 Method Name: notifyAll
+	  Return Type: void
+	  Modifier: public final native
+	 Method Name: registerNatives
+	  Return Type: void
+	  Modifier: private static native
+	Interface Name: java.io.Serializable
+	Interface Name: java.lang.Runnable
+	 Method Name: run
+	  Return Type: void
+	  Modifier: public abstract
+Class Name: ClassA
+ Constructor Name: ClassA
+  Modifier: public
+ Constructor Name: ClassA
+  Parameter Type: int
+  Modifier: public
+ Method Name: run
+  Return Type: void
+  Modifier: public
+ Method Name: toString
+  Return Type: class java.lang.String
+  Modifier: public
+ Method Name: setVal
+  Exception Type: java.lang.Exception
+  Return Type: void
+  Parameter Type: int
+  Modifier: public
+ Method Name: getVal
+  Return Type: int
+  Modifier: public
+ Method Name: printSomething
+  Return Type: void
+  Modifier: private
+ Field Name: val
+  Type: int
+  Modifier: private
+  Value: 12
+ Field Name: val2
+  Type: double
+  Modifier: private
+  Value: 0.2
+ Field Name: val3
+  Type: boolean
+  Modifier: private
+  Value: true
+======================================================

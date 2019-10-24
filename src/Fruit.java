@@ -3,6 +3,7 @@ public class Fruit {
 	public int size;
 	private int seeds;
 	private String name;
+	private Vegetable g;
 	private Vegetable veg = new Vegetable();
 	
 	public int getSeeds() {
