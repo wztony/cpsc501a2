@@ -5,6 +5,7 @@ public class Fruit {
 	private String name;
 	private Vegetable g;
 	private Vegetable veg = new Vegetable();
+	private Vegetable[] varray = {veg, veg};
 	
 	public int getSeeds() {
 		return seeds;

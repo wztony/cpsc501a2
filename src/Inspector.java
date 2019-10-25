@@ -5,10 +5,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class Inspector {
+	StringBuffer sb = new StringBuffer();
 	
     public void inspect(Object obj, boolean recursive) {
         Class c = obj.getClass();
         inspectClass(c, obj, recursive, 0);
+        printStringBuffer();
     }
 
 	private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
@@ -27,7 +29,8 @@ public class Inspector {
 			
 			//print class name
 			String className = c.getName();
-			System.out.println(tabs + "Class Name: " + className);
+			concatLine(tabs + "[CLASS]");
+			concatLine(tabs + "Class Name: " + className);
 			
 			printConstructors(c, tabs);
 			printMethods(c, tabs);		
@@ -44,14 +47,14 @@ public class Inspector {
 				if(!Modifier.isPublic(constructor.getModifiers())) {
 					constructor.setAccessible(true);
 				}
-				System.out.println(tabs + " Constructor Name: " + constructor.getName());
+				concatLine(tabs + " Constructor Name: " + constructor.getName());
 				Class[] constructorParameters = constructor.getParameterTypes();
 				for(Class parameter : constructorParameters) {
-					System.out.println(tabs + "  Parameter Type: " + parameter.getName());
+					concatLine(tabs + "  Parameter Type: " + parameter.getName());
 				}
-				System.out.println(tabs + "  Modifier: " + Modifier.toString(constructor.getModifiers()));
+				concatLine(tabs + "  Modifier: " + Modifier.toString(constructor.getModifiers()));
 			} catch (SecurityException e) {
-				System.out.println("cannot set accessible");
+				concatLine("cannot set accessible");
 			} 
 		}
     }
@@ -63,20 +66,20 @@ public class Inspector {
 			if(!Modifier.isPublic(method.getModifiers())) {
 				method.setAccessible(true);
 			}
-			System.out.println(tabs + " Method Name: " + method.getName());
+			concatLine(tabs + " Method Name: " + method.getName());
 			
 			Class[] exceptionParameters = method.getExceptionTypes();
 			for(Class parameter : exceptionParameters) {
-				System.out.println(tabs + "  Exception Type: " + parameter.getName());
+				concatLine(tabs + "  Exception Type: " + parameter.getName());
 			}
 			
-			System.out.println(tabs + "  Return Type: " + method.getReturnType());
+			concatLine(tabs + "  Return Type: " + method.getReturnType());
 			
 			Class[] methodParameters = method.getParameterTypes();
 			for(Class parameter : methodParameters) {
-				System.out.println(tabs + "  Parameter Type: " + parameter.getName());
+				concatLine(tabs + "  Parameter Type: " + parameter.getName());
 			}
-			System.out.println(tabs + "  Modifier: " + Modifier.toString(method.getModifiers()));
+			concatLine(tabs + "  Modifier: " + Modifier.toString(method.getModifiers()));
 		}
     }
     
@@ -89,13 +92,13 @@ public class Inspector {
 				field.setAccessible(true);
 			}
 			
-			System.out.println(tabs + " Field Name: " + field.getName());
-			System.out.println(tabs + "  Type: " + field.getType().getName());
-			System.out.println(tabs + "  Modifier: " + Modifier.toString(field.getModifiers()));
+			concatLine(tabs + " Field Name: " + field.getName());
+			concatLine(tabs + "  Type: " + field.getType().getName());
+			concatLine(tabs + "  Modifier: " + Modifier.toString(field.getModifiers()));
 			try {
 				Object ob = field.get(obj);
 				if(ob.equals(null)) {
-					System.out.println(tabs + "  Value: null");
+					concatLine(tabs + "  Value: null");
 				}
 				if(isPrimitive(ob)||
 						ob.getClass() == java.lang.String.class||
@@ -107,10 +110,10 @@ public class Inspector {
 						ob.getClass() == java.lang.Short.class||
 						ob.getClass() == java.lang.Character.class||
 						ob.getClass() == java.lang.Byte.class) {
-					System.out.println(tabs + "  Value: " + ob);
+					concatLine(tabs + "  Value: " + ob);
 				}
 				else {
-					System.out.println(tabs + "  Value: " + ob.getClass().getName() + "@" + ob.hashCode());
+					concatLine(tabs + "  Value: " + ob.getClass().getName() + "@" + ob.hashCode());
 				}
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
@@ -120,7 +123,7 @@ public class Inspector {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 //				e.printStackTrace();
-				System.out.println(tabs + "  Value: null");
+				concatLine(tabs + "  Value: null");
 			}
 			
 		}
@@ -137,7 +140,8 @@ public class Inspector {
 					recInterface(intf, obj, recursive, depth + 1);
 				}
 			}
-			System.out.println(tabs + "Interface Name: " + intf.getName());
+			concatLine(tabs + "[INTERFACE]");
+			concatLine(tabs + "Interface Name: " + intf.getName());
 			printMethods(intf, tabs);
 			printFields(intf, obj, recursive, depth);
 		}
@@ -170,10 +174,10 @@ public class Inspector {
     	String tabs = setupTabs(depth);
     	for(int i=0; i<Array.getLength(obj); i++) {
 			if(i==0) {
-				System.out.print(tabs + "[");
+				concat(tabs + "[");
 			}
 			if(i>0) {
-				System.out.print(",");
+				concat(",");
 			}
 			try {
 				Object value = Array.get(obj, i);
@@ -182,51 +186,45 @@ public class Inspector {
 						value.getClass() == java.lang.Long.class||
 						value.getClass() == java.lang.Integer.class||
 						value.getClass() == java.lang.Boolean.class) {
-					System.out.print(value);
+					concat(value.toString());
 				}
 				else if(value.getClass().isArray()){
-					recArray(value.getClass(), value, false, depth);
+					recArray(value.getClass(), value, true, depth);
 				}
 				else {
 					if(recursive) {
 						inspectClass(value.getClass(), value, true, depth);
 					}
 					else {
-						System.out.print(value.getClass().getName() + "@" + value.hashCode());
+						concat(value.getClass().getName() + "@" + value.hashCode());
 					}
 				}
 			} catch (NullPointerException e) {
-				System.out.print("null");
+				concat("null");
 //				e.printStackTrace();
 			}
 			if(i == Array.getLength(obj)-1) {
-				System.out.print("]");
+				concat("]");
 			}
 		}
-		System.out.println();
+		concatLine("");
     }
     
     
-    
-    public static void main(String[] args){
-    	Object apple = new MiniFruit("Apple", 18);
-//    	new Inspector().inspect(apple, false);
-    	int[] ar = {1,2,3};
-    	int[][] br = {{1,3,5},{2,4,6}};
-    	String[] cr = {"abc", "def", "asdf"};
-    	Fruit[] fruits = {new Fruit(), new Fruit()};
-//    	new Inspector().inspect(ar, false);
-//    	new Inspector().inspect(br, false);
-//    	new Inspector().inspect(cr, false);
-//    	new Inspector().inspect(fruits, false);
-    	
-    	String s = "asdaj";
-    	Vegetable v = new Vegetable();
-    	Vegetable v2 = new Vegetable();
-    	Vegetable[] veges = {v, v2};
-    	new Inspector().inspect(veges, true);
-    	System.out.println("==========================================================================================");
-    	String d = "Smog";
-//    	new Inspector().inspect('a', false);
+    public void concatLine(String s) {
+    	sb.append(s + "\n");
     }
+    
+    public void concat(String s) {
+    	sb.append(s);
+    }
+    
+    public void printStringBuffer() {
+        System.out.println(sb.toString());
+    }
+    
+    public String getStringBuffer() {
+    	return sb.toString();
+    }
+    
 }

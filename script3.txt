@@ -2,6 +2,7 @@
 Filename: script3.txt
 Running Test: ClassB
 Recursive: true
+			[CLASS]
 			Class Name: java.lang.Object
 			 Constructor Name: java.lang.Object
 			  Modifier: public
@@ -50,6 +51,7 @@ Recursive: true
 			 Method Name: registerNatives
 			  Return Type: void
 			  Modifier: private static native
+		[CLASS]
 		Class Name: ClassD
 		 Constructor Name: ClassD
 		  Modifier: public
@@ -78,6 +80,7 @@ Recursive: true
 		  Type: [LClassA;
 		  Modifier: private
 		  Value: [LClassA;@1442407170
+			[INTERFACE]
 			Interface Name: InterfaceB
 			 Method Name: func0
 			  Exception Type: java.lang.Exception
@@ -85,14 +88,8 @@ Recursive: true
 			  Parameter Type: int
 			  Parameter Type: boolean
 			  Modifier: public abstract
+		[INTERFACE]
 		Interface Name: InterfaceA
-		 Method Name: func2
-		  Exception Type: java.lang.Exception
-		  Exception Type: java.lang.ArithmeticException
-		  Exception Type: java.lang.IllegalMonitorStateException
-		  Return Type: int
-		  Parameter Type: java.lang.String
-		  Modifier: public abstract
 		 Method Name: func1
 		  Exception Type: java.lang.Exception
 		  Return Type: void
@@ -101,6 +98,14 @@ Recursive: true
 		  Parameter Type: boolean
 		  Parameter Type: java.lang.String
 		  Modifier: public abstract
+		 Method Name: func2
+		  Exception Type: java.lang.Exception
+		  Exception Type: java.lang.ArithmeticException
+		  Exception Type: java.lang.IllegalMonitorStateException
+		  Return Type: int
+		  Parameter Type: java.lang.String
+		  Modifier: public abstract
+	[CLASS]
 	Class Name: ClassC
 	 Constructor Name: ClassC
 	  Modifier: public
@@ -113,6 +118,18 @@ Recursive: true
 	  Modifier: public
 	 Method Name: toString
 	  Return Type: class java.lang.String
+	  Modifier: public
+	 Method Name: func3
+	  Return Type: void
+	  Parameter Type: int
+	  Modifier: public abstract
+	 Method Name: func1
+	  Exception Type: java.lang.Exception
+	  Return Type: void
+	  Parameter Type: int
+	  Parameter Type: double
+	  Parameter Type: boolean
+	  Parameter Type: java.lang.String
 	  Modifier: public
 	 Method Name: func0
 	  Exception Type: java.lang.Exception
@@ -127,18 +144,6 @@ Recursive: true
 	  Return Type: int
 	  Parameter Type: java.lang.String
 	  Modifier: public
-	 Method Name: func3
-	  Return Type: void
-	  Parameter Type: int
-	  Modifier: public abstract
-	 Method Name: func1
-	  Exception Type: java.lang.Exception
-	  Return Type: void
-	  Parameter Type: int
-	  Parameter Type: double
-	  Parameter Type: boolean
-	  Parameter Type: java.lang.String
-	  Modifier: public
 	 Field Name: val2
 	  Type: ClassA
 	  Modifier: private
@@ -151,10 +156,12 @@ Recursive: true
 	  Type: ClassA
 	  Modifier: private
 	  Value: ClassA@1252169911
+	[INTERFACE]
 	Interface Name: java.lang.Runnable
 	 Method Name: run
 	  Return Type: void
 	  Modifier: public abstract
+[CLASS]
 Class Name: ClassB
  Constructor Name: ClassB
   Modifier: public
@@ -180,4 +187,5 @@ Class Name: ClassB
   Type: ClassA
   Modifier: private
   Value: null
+
 ======================================================

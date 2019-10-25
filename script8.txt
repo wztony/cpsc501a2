@@ -2,6 +2,7 @@
 Filename: script8.txt
 Running Test: Test String
 Recursive: true
+	[CLASS]
 	Class Name: java.lang.Object
 	 Constructor Name: java.lang.Object
 	  Modifier: public
@@ -50,12 +51,15 @@ Recursive: true
 	 Method Name: registerNatives
 	  Return Type: void
 	  Modifier: private static native
+	[INTERFACE]
 	Interface Name: java.io.Serializable
+	[INTERFACE]
 	Interface Name: java.lang.Comparable
 	 Method Name: compareTo
 	  Return Type: int
 	  Parameter Type: java.lang.Object
 	  Modifier: public abstract
+	[INTERFACE]
 	Interface Name: java.lang.CharSequence
 	 Method Name: toString
 	  Return Type: class java.lang.String
@@ -84,6 +88,7 @@ Recursive: true
 	 Method Name: lambda$codePoints$1
 	  Return Type: interface java.util.Spliterator$OfInt
 	  Modifier: private
+[CLASS]
 Class Name: java.lang.String
  Constructor Name: java.lang.String
   Parameter Type: [B
@@ -531,4 +536,5 @@ Class Name: java.lang.String
   Type: java.util.Comparator
   Modifier: public static final
   Value: java.lang.String$CaseInsensitiveComparator@1265094477
+
 ======================================================

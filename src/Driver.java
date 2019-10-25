@@ -15,7 +15,6 @@ public class Driver {
         runTest("script6.txt", new ClassB[12], rec);
         runTest("script7.txt", new ClassB[12][12], rec);
         runTest("script8.txt", "Test String", rec);
-        runTest("scriptTest.txt", new MiniFruit("Apple", 10), rec);
     }
 
     public static void runTest(String filename, Object testObj, boolean recursive) {
